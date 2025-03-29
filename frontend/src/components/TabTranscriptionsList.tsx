@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import {
   Table,
   TableBody,
@@ -9,23 +10,21 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { FileAudio } from "lucide-react";
 import type { Transcription } from "@/lib/types";
+import { getTranscriptions } from "@/api/transcription";
 
 export function TabTranscriptionsList() {
-  // TODO: Update with API request
-  const transcriptions: Transcription[] = [
-    {
-      uuid: "123",
-      filename: "test.mp3",
-      transcribed_text: "This is a test transcription",
-      created_at: "2021-01-01",
-    },
-    {
-      uuid: "1234",
-      filename: "test.mp3",
-      transcribed_text: "This is a test transcription",
-      created_at: "2021-01-01",
-    },
-  ];
+  const { isPending, isError, data: transcriptions } = useQuery({
+    queryKey: ["transcriptions"],
+    queryFn: getTranscriptions,
+  });
+
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error loading transcriptions</div>;
+  }
 
   if (transcriptions.length === 0) {
     return (
@@ -53,7 +52,7 @@ export function TabTranscriptionsList() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {transcriptions.map((transcription) => (
+              {transcriptions.map((transcription: Transcription) => (
                 <TableRow>
                   <TableCell className="font-medium">
                     {transcription.filename}
