@@ -11,7 +11,6 @@ class Transcription(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     def to_dict(self):
-        """Convert model to dictionary"""
         return {
             'uuid': self.uuid,
             'filename': self.filename,
