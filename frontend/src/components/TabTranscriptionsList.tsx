@@ -53,7 +53,7 @@ export function TabTranscriptionsList() {
             </TableHeader>
             <TableBody>
               {transcriptions.map((transcription: Transcription) => (
-                <TableRow>
+                <TableRow key={transcription.uuid}>
                   <TableCell className="font-medium">
                     {transcription.filename}
                   </TableCell>
