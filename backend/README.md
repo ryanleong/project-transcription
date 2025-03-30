@@ -103,3 +103,24 @@ The server will start on `http://localhost:5000` by default. The database and ta
 - **GET** `/search?q=query`
 - Returns transcriptions matching the search query in filename
 
+## Development
+
+### Running Tests
+
+1. Make sure your virtual environment is activated:
+```bash
+# Windows
+.\venv\Scripts\activate
+
+# Linux/Mac
+source venv/bin/activate
+```
+
+2. Run test
+```bash
+# Run all tests
+pytest
+
+# Run specific test file
+pytest tests/api/routes/test_health.py
+```
