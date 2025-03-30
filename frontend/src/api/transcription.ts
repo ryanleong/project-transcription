@@ -1,7 +1,8 @@
 import { Transcription } from "@/lib/types";
+import { API_BASE_URL } from "@/config/env";
 
 const getTranscriptions = async () => {
-  const response = await fetch("http://localhost:5000/transcriptions");
+  const response = await fetch(`${API_BASE_URL}/transcriptions`);
   if (!response.ok) {
     throw new Error("Error while getting transcriptions");
   }
@@ -12,7 +13,7 @@ const postTranscription = async (file: File): Promise<Transcription> => {
   const formData = new FormData();
   formData.append('file', file);
 
-  const response = await fetch('http://localhost:5000/transcribe', {
+  const response = await fetch(`${API_BASE_URL}/transcribe`, {
     method: 'POST',
     body: formData,
   });
@@ -27,7 +28,7 @@ const postTranscription = async (file: File): Promise<Transcription> => {
 const searchTranscription = async ({ query }: { query?: string }) => {
   if (!query || query?.length === 0) return [];
 
-  const response = await fetch(`http://localhost:5000/search?q=${query}`);
+  const response = await fetch(`${API_BASE_URL}/search?q=${query}`);
   if (!response.ok) {
     throw new Error("Error while getting transcriptions");
   }
