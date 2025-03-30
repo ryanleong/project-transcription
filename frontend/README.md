@@ -1,54 +1,47 @@
-# React + TypeScript + Vite
+# Transcription Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React base SPA for users to upload audio files for transcriptions
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Project structure
+```
+frontend/
+├── src/
+│   ├── api/                 # API integration layer
+│   │   ├── endpoints/       # API endpoint definitions
+│   │   └── types/          # API related TypeScript types
+│   ├── assets/             # Static assets (images, fonts, etc.)
+│   ├── components/         # Reusable UI components from ShadCN/ui library
+│   │   ├── common/        # Shared components
+│   │   ├── forms/         # Form-related components
+│   │   └── layout/        # Layout components
+│   ├── config/            # Configuration files
+│   ├── lib/               # Utility functions and shared logic
+│   │   ├── types/        # Global TypeScript types
+│   │   └── utils/        # Helper functions
+│   ├── App.tsx            # Root component
+│   └── main.tsx           # Application entry point
+└── public/                # Public static files
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+## Setup and Running
+1. Clone the repository and navigate to the frontend directory:
+```bash
+cd frontend
 ```
+
+2. Install Dependencies
+```bash
+npm i
+```
+
+3. Create a `.env` file based on `.env.example`:
+```bash
+cp .env.example .env
+```
+
+The server will be hosted on `http://localhost:5173` by default.
+
+## Development
+
+### Running Tests
+
