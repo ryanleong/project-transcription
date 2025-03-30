@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from datetime import datetime
+from datetime import datetime, UTC
 import os
 
 health_bp = Blueprint('health', __name__)
@@ -8,6 +8,6 @@ health_bp = Blueprint('health', __name__)
 def health_check():
     return jsonify({
         'status': 'healthy',
-        'timestamp': datetime.utcnow().isoformat(),
+        'timestamp': datetime.now(UTC).isoformat(),
         'environment': os.getenv('FLASK_ENV', 'development')
     }), 200
