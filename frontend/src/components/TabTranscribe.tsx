@@ -17,13 +17,7 @@ import type { Transcription } from "@/lib/types";
 import { useMutation } from "@tanstack/react-query";
 import { postTranscription } from "@/api/transcription";
 
-interface TranscribeAudioProps {
-  onTranscriptionComplete: (transcription: Transcription) => void;
-}
-
-export function TabTranscribe({
-  onTranscriptionComplete,
-}: TranscribeAudioProps) {
+export function TabTranscribe() {
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
   const [progress, setProgress] = useState(0);
@@ -65,8 +59,7 @@ export function TabTranscribe({
     simulateProgressStart();
 
     try {
-      const result = await mutation.mutateAsync(file);
-      onTranscriptionComplete(result);
+      await mutation.mutateAsync(file);
 
       // Reset form
       setFile(null);

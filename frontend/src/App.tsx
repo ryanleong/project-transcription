@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TabTranscribe } from "./components/TabTranscribe";
-import { Transcription } from "./lib/types";
 import { TabTranscriptionsList } from "./components/TabTranscriptionsList";
 import { TabSearch } from "./components/TabSearch";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -10,11 +8,6 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 const queryClient = new QueryClient();
 
 export default function App() {
-  const [transcriptions, setTranscriptions] = useState<Transcription[]>([]);
-
-  const addTranscription = (transcription: Transcription) => {
-    setTranscriptions((prev) => [transcription, ...prev]);
-  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -33,7 +26,7 @@ export default function App() {
             <TabsTrigger value="search">Search</TabsTrigger>
           </TabsList>
           <TabsContent value="transcribe" className="p-4">
-            <TabTranscribe onTranscriptionComplete={addTranscription} />
+            <TabTranscribe />
           </TabsContent>
           <TabsContent value="list" className="p-4">
             <TabTranscriptionsList />
