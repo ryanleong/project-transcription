@@ -19,14 +19,14 @@ export function TabSearch() {
   const [query, setQuery] = useState<string>("");
   const debouncedQuery = useDebounce(query, 300);
 
-  const { isPending, isError, data: transcriptions } = useQuery({
+  const { isLoading, isError, data: transcriptions } = useQuery({
     queryKey: ["transcriptionsSearch", debouncedQuery],
     queryFn: () => searchTranscription({ query: debouncedQuery }),
     enabled: debouncedQuery.length > 0,
   });
 
   const renderResults = () => {
-    if (isPending) {
+    if (isLoading) {
       return (
         <div className="flex flex-col items-center justify-center py-10 text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mb-4" />

@@ -14,6 +14,8 @@ import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Upload, FileAudio } from "lucide-react";
 import type { Transcription } from "@/lib/types";
+import { useMutation } from "@tanstack/react-query";
+import { postTranscription } from "@/api/transcription";
 
 interface TranscribeAudioProps {
   onTranscriptionComplete: (transcription: Transcription) => void;
@@ -24,9 +26,12 @@ export function TabTranscribe({
 }: TranscribeAudioProps) {
   const [file, setFile] = useState<File | null>(null);
   const [title, setTitle] = useState("");
-  const [isTranscribing, setIsTranscribing] = useState(false);
   const [progress, setProgress] = useState(0);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const mutation = useMutation({
+    mutationFn: (file: File): Promise<Transcription> => postTranscription(file),
+  });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -38,31 +43,29 @@ export function TabTranscribe({
     }
   };
 
+  const simulateProgressStart = () => {
+    const interval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev < 95) return prev + 5;
+        clearInterval(interval);
+        return 95;
+      });
+    }, 300);
+  };
+
+  const simulateProgressEnd = () => {
+    setProgress(100);
+    setTimeout(() => setProgress(0), 500);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!file || !title) return;
 
-    setIsTranscribing(true);
-
-    // Simulate progress
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 95) {
-          clearInterval(interval);
-          return 95;
-        }
-        return prev + 5;
-      });
-    }, 300);
+    simulateProgressStart();
 
     try {
-      // const result = await transcribeAudio(file, title)
-      const result = {
-        uuid: "123",
-        filename: "test.mp3",
-        transcribed_text: "This is a test transcription",
-        created_at: "2021-01-01",
-      };
+      const result = await mutation.mutateAsync(file);
       onTranscriptionComplete(result);
 
       // Reset form
@@ -71,14 +74,9 @@ export function TabTranscribe({
       if (fileInputRef.current) fileInputRef.current.value = "";
 
       // Complete progress
-      setProgress(100);
-      setTimeout(() => {
-        setProgress(0);
-        setIsTranscribing(false);
-      }, 500);
+      simulateProgressEnd();
     } catch (error) {
       console.error("Transcription failed:", error);
-      setIsTranscribing(false);
       setProgress(0);
     }
   };
@@ -112,7 +110,7 @@ export function TabTranscribe({
   };
 
   const renderProgress = () => {
-    if (!isTranscribing) return null;
+    if (!mutation.isPending) return null;
 
     return (
       <div className="space-y-2">
@@ -121,6 +119,28 @@ export function TabTranscribe({
           <span>{progress}%</span>
         </div>
         <Progress value={progress} />
+      </div>
+    );
+  };
+
+  const renderError = () => {
+    if (!mutation.isError) return null;
+    return (
+      <div className="space-y-2">
+        <div className="flex justify-between text-sm text-destructive">
+          <span>{mutation.error.message}</span>
+        </div>
+      </div>
+    );
+  };
+
+  const renderSuccess = () => {
+    if (!mutation.isSuccess) return null;
+    return (
+      <div className="space-y-2">
+        <div className="flex justify-between text-sm text-green-500">
+          <span>Transcription complete!</span>
+        </div>
       </div>
     );
   };
@@ -146,7 +166,7 @@ export function TabTranscribe({
                 accept="audio/*"
                 onChange={handleFileChange}
                 className="hidden"
-                disabled={isTranscribing}
+                disabled={mutation.isPending}
                 required
               />
               <div
@@ -161,13 +181,15 @@ export function TabTranscribe({
           </div>
 
           {renderProgress()}
+          {renderSuccess()}
+          {renderError()}
 
           <Button
             type="submit"
             className="w-full"
-            disabled={!file || !title || isTranscribing}
+            disabled={!file || !title || mutation.isPending}
           >
-            {isTranscribing ? "Transcribing..." : "Start Transcription"}
+            {mutation.isPending ? "Transcribing..." : "Start Transcription"}
           </Button>
         </form>
       </CardContent>
