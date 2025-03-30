@@ -48,3 +48,6 @@ transcriptions.db
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+.coverage
+.pytest_cache

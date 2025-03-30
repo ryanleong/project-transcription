@@ -25,3 +25,9 @@ class Config:
     # Logging settings
     LOG_LEVEL = os.getenv('LOG_LEVEL', 'INFO')
     LOG_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'logs', 'app.log')
+
+class TestConfig(Config):
+    """Test configuration."""
+    TESTING = True
+    # Use in-memory SQLite database for testing
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
