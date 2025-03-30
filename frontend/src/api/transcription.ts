@@ -18,11 +18,13 @@ const postTranscription = async (file: File): Promise<Transcription> => {
     body: formData,
   });
 
+  const responseJson = await response.json();
+
   if (!response.ok) {
-    throw new Error('Error while uploading file for transcription');
+    throw new Error(responseJson?.message || 'Error while uploading file for transcription');
   }
 
-  return response.json();
+  return responseJson;
 };
 
 const searchTranscription = async ({ query }: { query?: string }) => {

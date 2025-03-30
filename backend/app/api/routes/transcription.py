@@ -20,6 +20,14 @@ def transcribe():
         if not file:
             return jsonify({'error': 'No file provided'}), 400
 
+        # Check if filename already exists in database
+        existing_transcription = Transcription.query.filter_by(filename=file.filename).first()
+        if existing_transcription:
+            return jsonify({
+                'error': 'File already transcribed',
+                'message': f'A transcription for "{file.filename}" already exists'
+            }), 409
+
         # Save the uploaded file temporarily
         os.makedirs(Config.UPLOAD_FOLDER, exist_ok=True)
         temp_path = os.path.join(Config.UPLOAD_FOLDER, file.filename)

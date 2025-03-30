@@ -17,7 +17,7 @@ class Config:
     # File upload settings
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size
     UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'temp')
-    ALLOWED_EXTENSIONS = {'mp3', 'wav', 'ogg', 'flac', 'm4a'}
+    ALLOWED_EXTENSIONS = {'mp3', 'wav'}
 
     # Whisper model settings
     WHISPER_MODEL = os.getenv('WHISPER_MODEL', 'openai/whisper-tiny')
