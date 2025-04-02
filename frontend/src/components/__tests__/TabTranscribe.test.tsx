@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { TabTranscribe } from '../TabTranscribe';
 import { useMutation } from '@tanstack/react-query';
 
