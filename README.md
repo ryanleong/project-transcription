@@ -11,15 +11,15 @@
 1. Install Docker Desktop for Windows from https://www.docker.com/products/docker-desktop
 2. Build the Docker image:
   ```bash
-  docker build -t project-encode .
+  docker build -t project-transcription .
   ```
 3. Run the container:
   ```bash
-  docker run -p 80:80 -p 5000:5000 project-encode
+  docker run -p 80:80 -p 5000:5000 project-transcription
   ```
 4. Access the application:
   - Frontend: http://localhost
-  - Backend API: http://localhost/api
+  - Backend API: http://localhost:5000
 
 #### Stopping and Cleaning Up Docker
 1. To stop a running container:
@@ -36,7 +36,7 @@
   ```
 3. To remove the image:
   ```bash
-  docker rmi project-encode
+  docker rmi project-transcription
   ```
 
 ### Option 2: Manual Setup
