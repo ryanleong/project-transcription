@@ -83,6 +83,17 @@ python run.py
 
 The server will start on `http://localhost:5000` by default. The database and tables will be automatically created on first run.
 
+## Database structure
+
+### Transcriptions Table
+
+| Column Name      | Type          | Description                                      |
+|------------------|---------------|--------------------------------------------------|
+| uuid             | String(36)    | Primary key, auto-generated UUID                 |
+| filename         | String(255)   | Name of the uploaded audio file                  |
+| transcribed_text | Text          | The transcribed text from the audio file         |
+| created_at       | DateTime      | Timestamp of when the transcription was created  |
+
 ## API Endpoints
 
 ### Health Check

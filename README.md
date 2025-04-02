@@ -4,20 +4,25 @@
 
 1. API only accepts `.mp3` and `.wav` audio files
 2. If the filename already exist in the DB, API will return and error saying that it has already been transcribed
+3. Search API currently only does simple substring matching
+
+### More info
+For more info and running unit test
+- Frontend - see `/frontend/README.md`
+- Backend - see `/backend/README.md`
 
 ## Setup
 
-### Option 1: Docker Setup (Recommended)
-1. Install Docker Desktop for Windows from https://www.docker.com/products/docker-desktop
-2. Build the Docker image:
+### Docker Setup
+1. Build the Docker image:
   ```bash
   docker build -t project-transcription .
   ```
-3. Run the container:
+2. Run the container:
   ```bash
   docker run -p 80:80 -p 5000:5000 project-transcription
   ```
-4. Access the application:
+3. Access the application:
   - Frontend: http://localhost
   - Backend API: http://localhost:5000
 
@@ -38,7 +43,3 @@
   ```bash
   docker rmi project-transcription
   ```
-
-### Option 2: Manual Setup
-Frontend - see `/frontend/README.md`
-Backend - see `/backend/README.md`

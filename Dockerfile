@@ -18,6 +18,9 @@ COPY backend/ .
 FROM python:3.11-slim
 WORKDIR /app
 
+# Install dos2unix and nginx
+RUN apt-get update && apt-get install -y nginx dos2unix && rm -rf /var/lib/apt/lists/*
+
 # Copy backend
 COPY --from=backend-build /app/backend /app/backend
 COPY --from=backend-build /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
@@ -25,18 +28,15 @@ COPY --from=backend-build /usr/local/lib/python3.11/site-packages /usr/local/lib
 # Copy frontend build
 COPY --from=frontend-build /app/frontend/dist /app/frontend/dist
 
-# Install nginx
-RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
-
 # Configure nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy and setup start script
+COPY start.sh /app/start.sh
+RUN dos2unix /app/start.sh && chmod +x /app/start.sh
 
 # Expose ports
 EXPOSE 80
 EXPOSE 5000
-
-# Start both nginx and Flask
-COPY start.sh /app/start.sh
-RUN chmod +x /app/start.sh
 
 CMD ["/app/start.sh"]
