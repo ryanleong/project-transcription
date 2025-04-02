@@ -8,16 +8,14 @@ from app.api.routes.search import search_bp
 import os
 
 def create_app(config_class=Config):
+    # Create config instance
+    config = config_class()
+
     app = Flask(__name__)
-    app.config.from_object(config_class)
+    app.config.from_object(config)
 
     # Create necessary directories
-    instance_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'instance')
-    temp_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'temp')
-    logs_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'logs')
-
-    # Create directories if they don't exist
-    for directory in [instance_dir, temp_dir, logs_dir]:
+    for directory in [app.config['DATABASE_FOLDER'], app.config['UPLOAD_FOLDER'], os.path.dirname(app.config['LOG_FILE'])]:
         os.makedirs(directory, exist_ok=True)
 
     # Initialize extensions

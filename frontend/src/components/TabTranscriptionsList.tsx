@@ -54,10 +54,12 @@ export function TabTranscriptionsList() {
             <TableBody>
               {transcriptions.map((transcription: Transcription) => (
                 <TableRow key={transcription.uuid}>
-                  <TableCell className="font-medium">
+                  <TableCell className="font-medium whitespace-normal break-words max-w-[500px]">
                     {transcription.filename}
                   </TableCell>
-                  <TableCell>{transcription.transcribed_text}</TableCell>
+                  <TableCell className="whitespace-normal break-words max-w-[500px]">
+                    {transcription.transcribed_text}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
